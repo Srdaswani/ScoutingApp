@@ -1,7 +1,35 @@
 var highlightedButtons = {};
+var completethrowstring = "";
+var parkingstring =  "";
+var trapscorestring = "";
+var whereonchainstring = "";
+
+function completethrow(element) {
+    completethrowstring = element.includes("yes") === true ? "Yes": "No";
+}
+
+function parking(element) {
+    parkingstring = element.includes("yes") === true ? "Yes": "No";
+}
+
+function trapscore(element) {
+    trapscorestring = element.includes("yes") === true ? "Yes": "No";
+}
+
+function whereonchain(element) {
+    if (element.includes("Left")) {
+        whereonchainstring = "Left";
+    }
+    else if (element.includes("Right")) {
+        whereonchainstring = "Right";
+    }
+    else {
+        whereonchainstring = "No";
+    }
+}
 
 // Array with stuff
-const questions = ["Throwing", "Parking", "Hang", "Trap"]
+const questions = ["hang"]
 
 // Annoying button logic
 function addition(element) {
@@ -13,8 +41,6 @@ function subtraction(element) {
     document.getElementById(element.id + "input").value = parseInt(document.getElementById(element.id + "input").value) - 1;
 }
 
-function inAlliance(element){inAllianceString = element.includes("yes") === true ? "Yes": "No";}
-
 // html is mid 
 function getInputValue(element) {
     var inputVal = document.getElementById(element + "input").value;
@@ -22,19 +48,12 @@ function getInputValue(element) {
     return inputVal;
 }
 
-function getQRCodeString() {
-    let qrCodeString = "";
-    for (i = 0; i < questions.length; i++) {
-        qrCodeString += getInputValue(questions[i]) + "|";
-    }
-}
-
 function generateQRCode() {
     let qrCodeString = "";
     for (i = 0; i < questions.length; i++) {
         qrCodeString += getInputValue(questions[i]) + "|";
     }
-    // alert(qrCodeString);
+    qrCodeString+= completethrowstring + "|" + parkingstring + "|" + whereonchainstring + "|" + trapscorestring;
     document.getElementById("qrcode").innerHTML = "";
     new QRCode(document.getElementById("qrcode"), qrCodeString);
 }
